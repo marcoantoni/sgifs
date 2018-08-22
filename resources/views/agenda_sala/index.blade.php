@@ -25,6 +25,7 @@
         <th>Fim</th>
         <th>Laboratório</th>
         <th>Solicitante</th>
+        <th>Responsável</th>
         <th>Observação</th>
         <th></th>
       </tr>
@@ -43,6 +44,7 @@
         <td>{{ $agendamento->fim }}</td>
         <td>{{ $agendamento->nome }}</td>
         <td>{{ $agendamento->solicitante }}</td>
+        <td>{{ $agendamento->name }}</td>
         <td>{{ $agendamento->observacao }}</td>
       
         <td class="ls-group-btn">

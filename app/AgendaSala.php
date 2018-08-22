@@ -9,6 +9,6 @@ class AgendaSala extends Model {
    	public $timestamps = false;
 
    	public static function getReservas($data_inicial){
-   		return DB::select("SELECT agenda_salas.id, dia, TIME_FORMAT(inicio, '%H:%i') AS inicio, TIME_FORMAT(fim, '%H:%i') AS fim, salas.nome, solicitante, observacao, id_user FROM agenda_salas, salas WHERE id_sala = salas.id AND dia >= '$data_inicial' AND excluido = 0 ORDER BY dia ASC");
+   		return DB::select("SELECT agenda_salas.id, dia, TIME_FORMAT(inicio, '%H:%i') AS inicio, TIME_FORMAT(fim, '%H:%i') AS fim, salas.nome, solicitante, observacao, id_user, users.name FROM agenda_salas, salas, users WHERE id_sala = salas.id AND dia >= '$data_inicial' AND excluido = 0 AND users.id = agenda_salas.id_user ORDER BY dia ASC");
    	}
 }
