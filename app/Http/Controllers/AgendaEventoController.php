@@ -59,6 +59,9 @@ class AgendaEventoController extends Controller {
         $evento->hora_inicio = $request->input('hora_inicio');
         $evento->id_sala = $request->input('id_sala');
         $evento->alvo = $request->input('alvo');
+        $evento->observacao = $request->input('observacao');
+        $evento->link = $request->input('link');
+        $evento->nomelink = $request->input('nomelink');
 
 //        $evento->id_user = Auth::User()->id;
         $evento->save();
@@ -114,6 +117,9 @@ class AgendaEventoController extends Controller {
         $evento->hora_inicio = $request->input('hora_inicio');
         $evento->id_sala = $request->input('id_sala');
         $evento->alvo = $request->input('alvo');
+        $evento->observacao = $request->input('observacao');
+        $evento->link = $request->input('link');
+        $evento->nomelink = $request->input('nomelink');
 
         $evento->save();
         return redirect('eventos')->with('sucess', 'Agendamento alterado com sucesso!');

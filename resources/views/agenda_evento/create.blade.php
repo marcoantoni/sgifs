@@ -31,7 +31,7 @@
     </label> 
     <label class="ls-label col-md-4 col-xs-12">
       <b class="ls-label-text">Hora de ínicio</b>
-      <input type="time" name="hora_inicio" placeholder="" class="ls-field" value="{{ old('hora_inicio') }}" required>
+      <input type="time" name="hora_inicio" placeholder="" class="ls-field" value="{{ old('hora_inicio') }}" >
     </label>
     <label class="ls-label col-md-6 col-xs-6">
       <b class="ls-label-text">Espaço a ser utizado</b>
@@ -46,8 +46,20 @@
     </label>
     <label class="ls-label col-md-6 col-xs-12">
       <b class="ls-label-text">Público alvo</b>
-      <input type="text" name="alvo" placeholder="Público alvo do evento" class="ls-field" data-ls-module="charCounter" maxlength="100" value="{{ old('alvo') }}" required>
-    </label>  
+      <input type="text" name="alvo" placeholder="Público alvo do evento" class="ls-field" data-ls-module="charCounter" maxlength="100" value="{{ old('alvo') }}">
+    </label> 
+    <label class="ls-label col-md-12 col-xs-12">
+      <b class="ls-label-text">Observação</b>
+      <input type="text" name="observacao" placeholder="Observação" class="ls-field" data-ls-module="charCounter" maxlength="1000" value="{{ old('observacao') }}">
+    </label>
+    <label class="ls-label col-md-8 col-xs-12">
+      <b class="ls-label-text">Link</b>
+      <input type="url" name="link" placeholder="Link para inscrição do eventou" class="ls-field" data-ls-module="charCounter" maxlength="100" value="{{ old('observacao') }}" >
+    </label>
+    <label class="ls-label col-md-4 col-xs-12">
+      <b class="ls-label-text">Nome do link</b>
+      <input type="text" name="nomelink" placeholder="Aparecerá ao lado do nome do evento" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('nomelink') }}" >
+    </label>
     <!--<label class="ls-label col-md-12">
       <b class="ls-label-text">Observação</b>
       <textarea rows="4" name="observacao" data-ls-module="charCounter" maxlength="1000">{{ old('observacao') }}</textarea>
