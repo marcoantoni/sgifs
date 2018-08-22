@@ -62,8 +62,8 @@ class AgendaEventoController extends Controller {
         $evento->observacao = $request->input('observacao');
         $evento->link = $request->input('link');
         $evento->nomelink = $request->input('nomelink');
+        $evento->id_user = Auth::User()->id;
 
-//        $evento->id_user = Auth::User()->id;
         $evento->save();
 
         return redirect('eventos')->with('sucess', 'Evento criado com sucesso!');
@@ -90,12 +90,12 @@ class AgendaEventoController extends Controller {
       
       $evento = AgendaEvento::find($id);
       
-      //if ($agenda->id_user == Auth::User()->id){
+      if ($evento->id_user == Auth::User()->id){
         $salas = Sala::orderBy('nome', 'ASC')->get();
         return view('agenda_evento.edit')->with(['evento' => $evento, 'salas' => $salas, 'pgtitulo' => 'Editando agendamento de evento']); 
-      //} else {
-        //return redirect('agenda')->with('error', 'Somente quem criou esse agendamento pode editá-lo!');
-      //}
+      } else {
+        return redirect('eventos')->with('error', 'Somente quem criou esse agendamento pode editá-lo!');
+      }
     }
 
     public function update(Request $request, $id) {
