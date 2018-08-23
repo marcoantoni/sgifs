@@ -48,7 +48,7 @@
         <td>{{ $evento->alvo }}</td>
         <td>{{ $evento->observacao }}</td>
         <td class="ls-group-btn">
-          @if (Auth::check())
+          @if ((Auth::check()) and  ($evento->id_user == Auth::User()->id))
             <a href="{{ URL::to('eventos/' . $evento->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar">Editar</a>
           @endif 
         </td>
