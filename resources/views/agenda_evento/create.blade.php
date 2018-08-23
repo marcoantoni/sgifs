@@ -54,7 +54,7 @@
     </label>
     <label class="ls-label col-md-8 col-xs-12">
       <b class="ls-label-text">Link</b>
-      <input type="url" name="link" placeholder="Link para inscrição do eventou" class="ls-field" data-ls-module="charCounter" maxlength="100" value="{{ old('observacao') }}" >
+      <input type="url" name="link" placeholder="Link para inscrição do evento" class="ls-field" data-ls-module="charCounter" maxlength="100" value="{{ old('link') }}" >
     </label>
     <label class="ls-label col-md-4 col-xs-12">
       <b class="ls-label-text">Nome do link</b>
