@@ -28,15 +28,30 @@
     </label>
     <label class="ls-label col-md-5 col-xs-12">
       <b class="ls-label-text">Solicitante</b>
-      <input type="text" name="solicitante" placeholder="Quem solicitou" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('solicitante') }}" required>
+      <input type="text" name="solicitante" list="dt_solicitante" autocomplete="off" placeholder="Quem solicitou" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('solicitante') }}" required>
+      <datalist id="dt_solicitante">
+        @foreach ($solicitantes AS $s)
+          <option value="{{ $s->solicitante }}">
+        @endforeach
+      </datalist>
     </label> 
     <label class="ls-label col-md-4 col-xs-12">
       <b class="ls-label-text">Motorista</b>
-      <input type="text" name="motorista" placeholder="Quem vai dirigir" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('motorista') }}" required>
+      <input type="text" name="motorista" list="dt_mototistas" autocomplete="off" placeholder="Quem vai dirigir" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('motorista') }}" required>
+      <datalist id="dt_mototistas">
+        @foreach ($motoristas AS $m)
+          <option value="{{ $m->motorista }}">
+        @endforeach
+      </datalist>
     </label> 
     <label class="ls-label col-md-9 col-xs-12">
       <b class="ls-label-text">Para onde vai</b>
-      <input type="text" name="para_onde" placeholder="Destino do deslocamento" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('para_onde') }}" >
+      <input type="text" name="para_onde" list="dt_destinos" autocomplete="off" placeholder="Destino do deslocamento" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('para_onde') }}" >
+      <datalist id="dt_destinos">
+        @foreach ($destinos AS $d)
+          <option value="{{ $d->para_onde }}">
+        @endforeach
+      </datalist>
     </label> 
     <label class="ls-label col-md-9 col-xs-12">
       <b class="ls-label-text">Veículo a ser utilizado</b>

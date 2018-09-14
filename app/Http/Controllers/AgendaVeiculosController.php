@@ -34,8 +34,18 @@ class AgendaVeiculosController extends Controller {
       	return redirect('agendaveiculos')->with(['error' => $this->msgSemPermissao]);
       }
 
+      $motoristas = AgendaVeiculo::distinct('motorista')->orderBy('motorista', 'ASC')->get(['motorista']);
+      $solicitantes = AgendaVeiculo::distinct('solicitante')->orderBy('solicitante', 'ASC')->get(['solicitante']);
+      $destinos = AgendaVeiculo::distinct('para_onde')->orderBy('para_onde', 'ASC')->get(['para_onde']);
       $veiculos = Veiculo::get();
-      return view('agenda_veiculo.create')->with(['veiculos' => $veiculos, 'pgtitulo' => 'Novo agendamento de veículo']);
+      
+      return view('agenda_veiculo.create')->with([
+        'motoristas' => $motoristas,
+        'solicitantes' => $solicitantes,
+        'destinos' => $destinos,
+        'veiculos' => $veiculos,
+        'pgtitulo' => 'Novo agendamento de veículo'
+      ]);
     }
 
    
@@ -84,9 +94,18 @@ class AgendaVeiculosController extends Controller {
 	    }
 
       $agendamento = AgendaVeiculo::find($id);
+      $motoristas = AgendaVeiculo::distinct('motorista')->orderBy('motorista', 'ASC')->get(['motorista']);
+      $solicitantes = AgendaVeiculo::distinct('solicitante')->orderBy('solicitante', 'ASC')->get(['solicitante']);
+      $destinos = AgendaVeiculo::distinct('para_onde')->orderBy('para_onde', 'ASC')->get(['para_onde']);
       $veiculos = Veiculo::get();
 
-      return view('agenda_veiculo.edit')->with(['agendamento' => $agendamento, 'veiculos' => $veiculos, 'pgtitulo' => 'Editando agendamento de veículo']); 
+      return view('agenda_veiculo.edit')->with([
+        'agendamento' => $agendamento, 
+        'motoristas' => $motoristas,
+        'solicitantes' => $solicitantes,
+        'destinos' => $destinos,
+        'veiculos' => $veiculos,
+        'pgtitulo' => 'Editando agendamento de veículo']); 
     }
 
     public function update(Request $request, $id) {
