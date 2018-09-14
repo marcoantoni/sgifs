@@ -34,9 +34,17 @@ class AgendaEventoController extends Controller {
       	return redirect('eventos')->with(['error' => $this->msgSemPermissao]);
       }
 
+      $eventos = AgendaEvento::distinct('nome_evento')->orderBy('nome_evento', 'ASC')->get(['nome_evento']);
+      $responsavel = AgendaEvento::distinct('responsavel')->orderBy('responsavel', 'ASC')->get(['responsavel']);
       $salas = Sala::orderBy('nome', 'ASC')->get();
+      $publico_alvo = AgendaEvento::distinct('alvo')->orderBy('alvo', 'ASC')->get(['alvo']);
 
-      return view('agenda_evento.create')->with(['salas' => $salas, 'pgtitulo' => 'Agendamento novo evento']);
+      return view('agenda_evento.create')->with([
+        'eventos' => $eventos,
+        'responsavel' => $responsavel,
+        'salas' => $salas,
+        'publico_alvo' => $publico_alvo,
+        'pgtitulo' => 'Agendamento novo evento']);
     }
 
    
@@ -91,8 +99,20 @@ class AgendaEventoController extends Controller {
       $evento = AgendaEvento::find($id);
       
       if ($evento->id_user == Auth::User()->id){
+        $eventos = AgendaEvento::distinct('nome_evento')->orderBy('nome_evento', 'ASC')->get(['nome_evento']);
+        $responsavel = AgendaEvento::distinct('responsavel')->orderBy('responsavel', 'ASC')->get(['responsavel']);
         $salas = Sala::orderBy('nome', 'ASC')->get();
-        return view('agenda_evento.edit')->with(['evento' => $evento, 'salas' => $salas, 'pgtitulo' => 'Editando agendamento de evento']); 
+        $publico_alvo = AgendaEvento::distinct('alvo')->orderBy('alvo', 'ASC')->get(['alvo']);
+        
+        return view('agenda_evento.edit')->with([
+          'evento' => $evento, 'salas' => $salas, 
+          'eventos' => $eventos,
+          'responsavel' => $responsavel,
+          'salas' => $salas,
+          'publico_alvo' => $publico_alvo,
+          'pgtitulo' => 'Editando agendamento de evento'
+        ]);
+         
       } else {
         return redirect('eventos')->with('error', 'Somente quem criou esse agendamento pode editá-lo!');
       }
