@@ -23,7 +23,6 @@
         <th>Nome evento</th>
         <th>Responsável</th>
         <th>Data ínicio</th>
-        <th>Data fim</th>
         <th>Horário</th>
         <th>Local</th>
         <th>Público alvo</th>
@@ -41,8 +40,13 @@
           @endif
         </td>
         <td>{{ $evento->responsavel }}</td>
-        <td>{{ \Carbon\Carbon::parse($evento->data_inicio)->format('d/m/Y')}}</td>
-        <td>{{ \Carbon\Carbon::parse($evento->data_fim)->format('d/m/Y')}}</td>
+        <td>
+          @if ($evento->data_inicio == date('Y-m-d'))
+           {{ \Carbon\Carbon::parse($evento->data_inicio)->format('d/m/Y')}} <a href="#" class="ls-tag-primary">Hoje</a>
+          @else
+            {{ \Carbon\Carbon::parse($evento->data_inicio)->format('d/m/Y')}}
+          @endif
+        </td>
         <td>{{ $evento->hora_inicio }}</td>
         <td>{{ $evento->nome }}</td>
         <td>{{ $evento->alvo }}</td>

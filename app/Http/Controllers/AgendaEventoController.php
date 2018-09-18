@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\AgendaEvento;
 use App\Sala;
 use App\PermissaoUsuario;
+use \Carbon\Carbon;
 
 class AgendaEventoController extends Controller {
     
@@ -19,7 +20,7 @@ class AgendaEventoController extends Controller {
     public function index() {
 
         $data_inicial = date('Y-m-d');
-        $eventos = AgendaEvento::getReservas($data_inicial); //'dia', '>=', $data_inicial)->get();
+        $eventos = AgendaEvento::getReservas($data_inicial); 
         $pgtitulo = "Cronograma de eventos do campus";
         return view('agenda_evento.index')->with(['eventos' => $eventos, 'pgtitulo' => $pgtitulo]);
     }
@@ -59,20 +60,31 @@ class AgendaEventoController extends Controller {
 	    }
      
       try {
-        $evento = new AgendaEvento();
-        $evento->nome_evento = $request->input('nome_evento');
-        $evento->responsavel = $request->input('responsavel');
-        $evento->data_inicio = $request->input('data_inicio');
-        $evento->data_fim = $request->input('data_fim');
-        $evento->hora_inicio = $request->input('hora_inicio');
-        $evento->id_sala = $request->input('id_sala');
-        $evento->alvo = $request->input('alvo');
-        $evento->observacao = $request->input('observacao');
-        $evento->link = $request->input('link');
-        $evento->nomelink = $request->input('nomelink');
-        $evento->id_user = Auth::User()->id;
+        // criação de evento repetido - extrair a diferença entre data inicial e final
+        $carbon = new Carbon();
+        $data_inicio = carbon::createFromFormat('Y-m-d', $request->input('data_inicio'));
+        $data_fim = carbon::createFromFormat('Y-m-d', $request->input('data_fim'));
+        $diff = $data_fim->diffInDays($data_inicio);
 
-        $evento->save();
+        // criar o evento n vezes de acordo com a $diff
+        for ($i=0; $i <= $diff; $i++){
+          $evento = new AgendaEvento();
+          // grava o link e o nome da inscrição apenas na primeira vez
+          if ($i == 0) {
+            $evento->link = $request->input('link');
+            $evento->nomelink = $request->input('nomelink');
+          }
+
+          $evento->nome_evento = $request->input('nome_evento');
+          $evento->responsavel = $request->input('responsavel');
+          $evento->data_inicio = carbon::createFromFormat('Y-m-d', $request->input('data_inicio'))->addDays($i);
+          $evento->hora_inicio = $request->input('hora_inicio');
+          $evento->id_sala = $request->input('id_sala');
+          $evento->alvo = $request->input('alvo');
+          $evento->observacao = $request->input('observacao');
+          $evento->id_user = Auth::User()->id;
+          $evento->save();
+        }
 
         return redirect('eventos')->with('sucess', 'Evento criado com sucesso!');
 
@@ -81,10 +93,9 @@ class AgendaEventoController extends Controller {
       }       
     }
 
-    public function show($id) {
-      //$agendamento = AgendaVeiculo::getReserva($id);
-      return $agendamento;
-    }
+    //public function show($id) {
+
+    //}
 
     public function edit($id) {
        
@@ -125,7 +136,7 @@ class AgendaEventoController extends Controller {
   		if (!Auth::check()) {
 	    	return redirect('login');
       } else if (!$temPermissao) {
-          return $this->msgSemPermissao;
+        return $this->msgSemPermissao;
 	    }
 
       try {
@@ -148,8 +159,8 @@ class AgendaEventoController extends Controller {
       }       
     }
 
-    public function destroy($id) {
+    //public function destroy($id) {
     	//
-    }
+    //}
 
 }
