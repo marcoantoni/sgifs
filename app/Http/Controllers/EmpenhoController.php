@@ -74,13 +74,12 @@ class EmpenhoController extends Controller {
             $emp->arquivo = $nome;
         }
 
-      try {
-        $emp->save();
-        return redirect('empenho')->with('sucess', 'Empenho criado com sucesso!');
-      } catch (\Illuminate\Database\QueryException $ex) {
-        //return redirect('agendaveiculos.create')->with('error', 'Erro: ' . $ex->getMessage());
-        return back()->withInput()->with('error', 'Verifique se todos os campos estão preenchidos corretamente! <br/>Erro: ' . $ex->getMessage());
-      } 
+        try {
+            $emp->save();
+            return redirect('empenho')->with('sucess', 'Empenho criado com sucesso!');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return back()->withInput()->with('error', 'Verifique se todos os campos estão preenchidos corretamente! <br/>Erro: ' . $ex->getMessage());
+        } 
     }
 
     public function show($id) {
@@ -102,7 +101,13 @@ class EmpenhoController extends Controller {
         $nat = Natureza::getTodas();
         $orc = Orcamento::orderBy('ano', 'DESC')->get();
         $pgtitulo = "Editando empenho";
-        return view('empenho.edit')->with(['empenho' => $empenho, 'empresas' => $empr, 'natureza' => $nat, 'orcamento' => $orc, 'pgtitulo' => $pgtitulo]);
+        return view('empenho.edit')->with([
+            'empenho' => $empenho, 
+            'empresas' => $empr, 
+            'natureza' => $nat, 
+            'orcamento' => $orc, 
+            'pgtitulo' => $pgtitulo
+        ]);
     }
 
     public function update(Request $request, $id) {
@@ -148,22 +153,31 @@ class EmpenhoController extends Controller {
    // }
 
 
-    public function graficos(){
-
+    public function graficos() {
         $ano = date('Y');
+        /*  $o              = Orcamento previsto
+            $rl             = Recursos liberados
+            $totalEmp       = Total gasto
+            $gtnatureza     = Grafico Gastos por natureza
+            $dataliberacao  = Grafico Evolução dos recursos liberados
+        */
 
-        $rl = RecursosLiberados::getValorLiberado($ano);
-        $totalEmp = Empenho::getTotalGasto($ano);
-        
-        $gtnatureza = Empenho::getGastosNatureza($ano);
-
-        // dados referentes ao orçamento
         $o = Orcamento::where('ano', $ano)->get();
-        $rl = RecursosLiberados::where('id_orcamento', $ano)->sum('valor');//getValorLiberado($ano);
-        $totalEmp = Empenho::getTotalGasto($ano);
-        // $todosEmp = Empenho::getEmpenhos($ano);
-        $dataliberacao = RecursosLiberados::getEvolucaoValorLiberado($ano);
+        $rl = RecursosLiberados::where('id_orcamento', $ano)->sum('valor'); 
+        $totalEmp = Empenho::where('id_orcamento', $ano)->where('cancelado', 0)->sum('valor');
+        $gtnatureza = Empenho::getGastosNatureza($ano);
+        $rl = RecursosLiberados::where('id_orcamento', $ano)->sum('valor');
+        
 
-        return view('orcamento.grafico')->with(['gastosnatureza' => $gtnatureza, 'orcamento' => $o, 'recursos_liberados' => $rl, 'total_gasto' => $totalEmp, 'dataliberacao' => $dataliberacao, 'pgtitulo' => 'Gráficos']);
+        $dataliberacao = RecursosLiberados::where('id_orcamento', $ano)->get();
+
+        return view('orcamento.grafico')->with([
+            'orcamento' => $o, 
+            'recursos_liberados' => $rl, 
+            'total_gasto' => $totalEmp, 
+            'gastosnatureza' => $gtnatureza, 
+            'dataliberacao' => $dataliberacao, 
+            'pgtitulo' => 'Gráficos'
+        ]);
     }
 }

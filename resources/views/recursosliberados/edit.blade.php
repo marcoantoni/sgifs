@@ -20,7 +20,11 @@
       <div class="ls-custom-select">
         <select class="ls-custom" name="id_orcamento">
           @foreach ($orcamento as $o)
-            <option value="{{ $o->ano }}">{{ $o->ano }}</option>
+            @if ($rlib->id_orcamento == $o->ano )
+              <option value="{{ $o->ano }}" selected>{{ $o->ano }}</option>
+            @else
+              <option value="{{ $o->ano }}">{{ $o->ano }}</option>
+            @endif
           @endforeach
         </select>
       </div>
@@ -54,7 +58,7 @@
     <tbody>
       @foreach ($rlibs as $rlib)
       <tr>
-        <td>{{ $rlib->data }}</td>
+        <td>{{ \Carbon\Carbon::parse($rlib->data)->format('d/m/Y') }}</td>
         <td>{{ number_format($rlib->valor, 2, ',', '.') }}</td>
         <td>{{ $rlib->id_orcamento }}</td>
         <td class="ls-txt-right ls-regroup">

@@ -18,20 +18,29 @@ class OrcamentoController extends Controller {
 
     public function index() {
         $ano = date('Y');
+        // informações para preencher os valores dos boxes
         $o = Orcamento::where('ano', $ano)->get();
-        $rl = RecursosLiberados::getValorLiberado($ano);
-        $totalEmp = Empenho::getTotalGasto($ano);
-        $todosEmp = Empenho::getEmpenhos($ano);
+        $rl = RecursosLiberados::where('id_orcamento', $ano)->sum('valor'); 
+        $totalEmp = Empenho::where('id_orcamento', $ano)->where('cancelado', 0)->sum('valor');
         $orc_anual = Orcamento::orderBy('ano', 'DESC')->get();
+        // visualização dos empenhos do ano atual
+        $todosEmp = Empenho::getEmpenhos($ano);
         $pgtitulo = "Resumo do orçamento de $ano";
-        
         if (Auth::check()) {
             $notificacoes = Notificacao::where('id_user', Auth::User()->id)->where('lida', 0)->get();
         } else {
             $notificacoes = false;
         }
 
-        return view('orcamento.index')->with(['orcamento' => $o, 'recursos_liberados' => $rl, 'total_gasto' => $totalEmp, 'empenhos' => $todosEmp, 'orc_anual' => $orc_anual, 'pgtitulo' => $pgtitulo, 'notificacoes' => $notificacoes]);
+        return view('orcamento.index')->with([
+            'orcamento' => $o, 
+            'recursos_liberados' => $rl, 
+            'total_gasto' => $totalEmp, 
+            'empenhos' => $todosEmp, 
+            'orc_anual' => $orc_anual, 
+            'pgtitulo' => $pgtitulo, 
+            'notificacoes' => $notificacoes
+        ]);
     }
 
 
@@ -45,17 +54,33 @@ class OrcamentoController extends Controller {
 
     public function show($id) {
         // cópia do método index;
-        // $id representa o ano no banco de dados
+        // id representa o ano no banco de dados
         $ano = $id;
-        $o = Orcamento::get();
-        $rl = RecursosLiberados::getValorLiberado($ano);
-        $totalEmp = Empenho::getTotalGasto($ano);
-        $todosEmp = Empenho::getEmpenhos($ano);
+        // informações para preencher os valores dos boxes
+        $o = Orcamento::where('ano', $ano)->get();
+        $rl = RecursosLiberados::where('id_orcamento', $ano)->sum('valor'); 
+        $totalEmp = Empenho::where('id_orcamento', $ano)->where('cancelado', 0)->sum('valor');
         $orc_anual = Orcamento::orderBy('ano', 'DESC')->get();
-
+        // visualização dos empenhos do ano atual
+        $todosEmp = Empenho::getEmpenhos($ano);
         $pgtitulo = "Resumo do orçamento de $ano";
         
-        return view('orcamento.show')->with(['orcamento' => $o, 'recursos_liberados' => $rl, 'total_gasto' => $totalEmp, 'empenhos' => $todosEmp, 'orc_anual' => $orc_anual, 'pgtitulo' => $pgtitulo]);
+        if (Auth::check()) {
+            $notificacoes = Notificacao::where('id_user', Auth::User()->id)->where('lida', 0)->get();
+        } else {
+            $notificacoes = false;
+        }
+
+        return view('orcamento.index')->with([
+            'orcamento' => $o, 
+            'recursos_liberados' => $rl, 
+            'total_gasto' => $totalEmp, 
+            'empenhos' => $todosEmp, 
+            'orc_anual' => $orc_anual, 
+            'pgtitulo' => $pgtitulo, 
+            'notificacoes' => $notificacoes
+        ]);
+        
     }
 
     public function edit($id) {
@@ -96,5 +121,4 @@ class OrcamentoController extends Controller {
     public function destroy($id) {
         //
     }
-
 }

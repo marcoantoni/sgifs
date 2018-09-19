@@ -22,7 +22,7 @@
   <tbody>
     @foreach ($rlibs as $rlib)
     <tr>
-      <td>{{ $rlib->data }}</td>
+      <td>{{ \Carbon\Carbon::parse($rlib->data)->format('d/m/Y') }}</td>
       <td>{{ number_format($rlib->valor, 2, ',', '.') }}</td>
       @if (Auth::check())
         <td class="ls-txt-right ls-regroup">
@@ -33,7 +33,5 @@
     @endforeach
   </tbody>
 </table>
-
-
-    </div>
+</div>
 @stop

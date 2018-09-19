@@ -19,7 +19,7 @@ class RecursosLiberadosController extends Controller {
     public function index() {
         
         $ano = date('Y');
-        $rlibs = RecursosLiberados::getEvolucaoValorLiberado($ano);
+        $rlibs = RecursosLiberados::where('id_orcamento', $ano)->orderBy('data', 'ASC')->get(); 
         $pgtitulo = "Recursos liberados no ano de $ano";
         return view('recursosliberados.index')->with(['rlibs' => $rlibs, 'pgtitulo' => $pgtitulo]);
     }
@@ -35,7 +35,7 @@ class RecursosLiberadosController extends Controller {
         }
 
         $ano = date('Y');
-        $rlibs = RecursosLiberados::getEvolucaoValorLiberado($ano);
+        $rlibs = RecursosLiberados::where('id_orcamento', $ano)->orderBy('data', 'ASC')->get(); 
 
         $orcamento = Orcamento::orderBy('ano', 'DESC')->get();
         return view('recursosliberados.create')->with(['orcamento' => $orcamento, 'rlibs' => $rlibs, 'pgtitulo' => 'Liberando novo recurso']);
@@ -86,7 +86,7 @@ class RecursosLiberadosController extends Controller {
         $rlib = RecursosLiberados::find($id);
 
         $ano = date('Y');
-        $rlibs = RecursosLiberados::getEvolucaoValorLiberado($ano);
+        $rlibs = RecursosLiberados::where('id_orcamento', $ano)->orderBy('data', 'ASC')->get(); 
 
         $orcamento = Orcamento::get();
         return view('recursosliberados.edit')->with(['rlib' => $rlib, 'orcamento' => $orcamento, 'rlibs' => $rlibs, 'pgtitulo' => 'Editando recurso liberado']); 

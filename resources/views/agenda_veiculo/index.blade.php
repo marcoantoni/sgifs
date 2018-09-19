@@ -60,7 +60,7 @@
         <td class="hidden-xs">{{ $agendamento->solicitante }}</td>
         <td>{{ $agendamento->motorista }}</td>
         <td class="hidden-xs">{{ $agendamento->para_onde }}</td>
-        <td class="hidden-xs">{{ $agendamento->observacao }}</td>
+        <td class="hidden-xs">{{ str_limit($agendamento->observacao, 45, ' ...') }} </td>
       
         <td class="ls-group-btn">
           <a href="#" class="ls-btn ls-btn-sm ls-screen-xs" title="Detalhes" data-ls-module="modal" data-target="#modalExibirEvento" onclick="buscarEvento({{ $agendamento->id }});">Detalhes</a>
