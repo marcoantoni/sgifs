@@ -1,5 +1,4 @@
 @extends('layout')
-
 @section('content')
   <h1 class="ls-title-intro ls-ico-week">{{ $pgtitulo}}</h1>
   @if (session('sucess'))
@@ -22,7 +21,7 @@
       <tr>
         <th>Nome evento</th>
         <th>Responsável</th>
-        <th>Data ínicio</th>
+        <th>Data início</th>
         <th>Horário</th>
         <th>Local</th>
         <th>Público alvo</th>
@@ -52,8 +51,14 @@
         <td>{{ $evento->alvo }}</td>
         <td>{{ $evento->observacao }}</td>
         <td class="ls-group-btn">
-          @if ((Auth::check()) and  ($evento->id_user == Auth::User()->id))
+          @if ((Auth::check()))
             <a href="{{ URL::to('eventos/' . $evento->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar">Editar</a>
+						<!-- form para exclusão com ajax -->
+            <form class="formApagarEvento" action="{{ route('eventos.destroy', $evento->id) }}" method="POST" onsubmit="return false">
+				        <input type="hidden" name="_method" value="DELETE">
+				        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+				        <input type="submit" class="ls-btn-danger ls-btn-sm btnDeleteProduct" value="Apagar" id="btnDelete" data-id="{{ $evento->id }}" >
+				    </form>	
           @endif 
         </td>
       </tr>
@@ -61,4 +66,32 @@
     </tbody>
   </table>
 </div>
+<script>
+	$('.formApagarEvento').on('click', function(e) {
+		if (confirm('Deseja mesmo excluir?')) {
+			var inputData = $('.formApagarEvento').serialize();
+			var dataId = $('.btnDeleteProduct').attr('data-id');
+			var parent = $(this).parent();
+			var url = '{{ url("/eventos") }}' + '/' + dataId;
+			
+			$.ajax({
+				url: url,
+				type: 'POST',
+				data: inputData,
+				
+				success: function(data) {
+					if (data.status === 'successo') {
+						// removendo a linha excluida com uma animação
+						parent.closest("tr").fadeOut(1000, function(){ 
+							$(this).remove();
+						});
+					} else if (data.status === 'erro'){
+						alert(data.msg);
+					}
+				}
+			});
+		}
+		return false;
+	});
+</script>
 @stop

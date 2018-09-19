@@ -19,10 +19,11 @@ class AgendaEventoController extends Controller {
 
     public function index() {
 
-        $data_inicial = date('Y-m-d');
-        $eventos = AgendaEvento::getReservas($data_inicial); 
-        $pgtitulo = "Cronograma de eventos do campus";
-        return view('agenda_evento.index')->with(['eventos' => $eventos, 'pgtitulo' => $pgtitulo]);
+      $data_inicial = date('Y-m-d');
+      $eventos = AgendaEvento::getReservas($data_inicial); 
+      $pgtitulo = "Cronograma de eventos do campus";
+
+      return view('agenda_evento.index')->with(['eventos' => $eventos, 'pgtitulo' => $pgtitulo]);
     }
 
     public function create() {
@@ -45,7 +46,8 @@ class AgendaEventoController extends Controller {
         'responsavel' => $responsavel,
         'salas' => $salas,
         'publico_alvo' => $publico_alvo,
-        'pgtitulo' => 'Agendamento novo evento']);
+        'pgtitulo' => 'Agendamento novo evento'
+      ]);
     }
 
    
@@ -54,9 +56,9 @@ class AgendaEventoController extends Controller {
     	$temPermissao = PermissaoUsuario::getPermissoes(Auth::User()->id, $this->nivelPermissaoRequerida);
 
   		if (!Auth::check()) {
-	    	return redirect('login');
+	   		return redirect('login');
       } else if (!$temPermissao) {
-          return redirect('eventos')->with('error', 'Agendamento criado com sucesso!');
+      	return redirect('eventos')->with('error', 'Agendamento criado com sucesso!');
 	    }
      
       try {
@@ -104,7 +106,7 @@ class AgendaEventoController extends Controller {
   		if (!Auth::check()) {
 	    	return redirect('login');
       } else if (!$temPermissao) {
-          return redirect('eventos')->with('error', $this->msgSemPermissao); 
+      	return redirect('eventos')->with('error', $this->msgSemPermissao); 
 	    }
       
       $evento = AgendaEvento::find($id);
@@ -151,7 +153,6 @@ class AgendaEventoController extends Controller {
         $evento->observacao = $request->input('observacao');
         $evento->link = $request->input('link');
         $evento->nomelink = $request->input('nomelink');
-
         $evento->save();
         return redirect('eventos')->with('sucess', 'Agendamento alterado com sucesso!');
       } catch (\Illuminate\Database\QueryException $ex) {
@@ -159,8 +160,18 @@ class AgendaEventoController extends Controller {
       }       
     }
 
-    //public function destroy($id) {
-    	//
-    //}
+  public function destroy($id) {
 
+    $evento = AgendaEvento::find($id);
+  
+    if ($evento->id_user == Auth::User()->id){ 
+      $evento->delete();
+      $resp = ['status' => 'successo'];
+    } else {
+      $resp = ['msg' => 'Somente quem criou esse agendamento pode excluí-lo!', 'status' => 'erro'];
+    }
+    // retorna um json pois a exclusão é feita via ajax
+    return response()->json($resp);
+  } 
 }
+
