@@ -51,6 +51,12 @@
           @if (Auth::check())
             @if ($agendamento->id_user == Auth::User()->id)
               <a href="{{ URL::to('agenda/' . $agendamento->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar">Editar</a>
+              <!-- form para exclusão com ajax -->
+              <form class="formApagarAgendamento" action="{{ route('agenda.destroy', $agendamento->id) }}" method="POST" onsubmit="return false">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <input type="submit" class="ls-btn-danger ls-btn-sm btnApagarAgendamento" value="Apagar" id="btnDelete" data-id="{{ $agendamento->id }}" >
+            </form> 
             @endif
           @endif
         </td>
@@ -59,4 +65,32 @@
     </tbody>
   </table>
 </div>
+<script>
+  $('.formApagarAgendamento').on('click', function(e) {
+    if (confirm('Deseja mesmo excluir?')) {
+      var inputData = $('.formApagarAgendamento').serialize();
+      var dataId = $('.btnApagarAgendamento').attr('data-id');
+      var parent = $(this).parent();
+      var url = '{{ url("/agenda") }}' + '/' + dataId;
+      
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: inputData,
+        
+        success: function(data) {
+          if (data.status === 'successo') {
+            // removendo a linha excluida com uma animação
+            parent.closest("tr").fadeOut(1000, function(){ 
+              $(this).remove();
+            });
+          } else if (data.status === 'erro'){
+            alert(data.msg);
+          }
+        }
+      });
+    }
+    return false;
+  });
+</script>
 @stop

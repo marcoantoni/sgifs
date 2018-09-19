@@ -18,16 +18,21 @@
       <input type="date" name="dia" placeholder="Dia que será usado" class="ls-field" value="{{ old('dia') }}" required>
     </label>
     <label class="ls-label col-md-3 col-xs-12">
-      <b class="ls-label-text">Hora de saída</b>
+      <b class="ls-label-text">Hora de início</b>
       <input type="time" name="inicio" placeholder="Início do deslocamento" class="ls-field" value="{{ old('inicio') }}" required>
     </label> 
     <label class="ls-label col-md-3 col-xs-12">
-      <b class="ls-label-text">Hora de volta</b>
+      <b class="ls-label-text">Fim</b>
       <input type="time" name="fim" placeholder="Fim do deslocamento" class="ls-field" value="{{ old('fim') }}" required>
     </label>
     <label class="ls-label col-md-9 col-xs-12">
       <b class="ls-label-text">Solicitante</b>
-      <input type="text" name="solicitante" placeholder="Quem solicitou" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('solicitante') }}" required>
+      <input type="text" name="solicitante" list="dt_solicitante" autocomplete="off" placeholder="Quem solicitou" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('solicitante') }}" required>
+      <datalist id="dt_solicitante">
+        @foreach ($solicitantes AS $s)
+          <option value="{{ $s->solicitante }}">
+        @endforeach
+      </datalist>
     </label>  
     <label class="ls-label col-md-9">
       <b class="ls-label-text">Sala ou laboratório</b>
