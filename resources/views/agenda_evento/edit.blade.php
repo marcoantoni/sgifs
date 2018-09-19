@@ -69,10 +69,6 @@
         @endforeach
       </datalist>
     </label>
-    <label class="ls-label col-md-12 col-xs-12">
-      <b class="ls-label-text">Observação</b>
-      <input type="text" name="observacao" placeholder="Observação" class="ls-field" data-ls-module="charCounter" maxlength="1000" value="{{ $evento->observacao }}">
-    </label>
     <label class="ls-label col-md-8 col-xs-12">
       <b class="ls-label-text">Link</b>
       <input type="url" name="link" placeholder="Link para inscrição do evento" class="ls-field" data-ls-module="charCounter" maxlength="100" value="{{ $evento->link }}" >
@@ -80,6 +76,10 @@
     <label class="ls-label col-md-4 col-xs-12">
       <b class="ls-label-text">Nome do link</b>
       <input type="text" name="nomelink" placeholder="Aparecerá ao lado do nome do evento" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ $evento->nomelink }}">
+    </label>
+    <label class="ls-label col-md-12">
+      <b class="ls-label-text">Observação</b>
+      <textarea rows="4" name="observacao" data-ls-module="charCounter" maxlength="1000">{{ $evento->observacao }}</textarea>
     </label>
     <div class="ls-actions-btn">
       <button class="ls-btn" type="submit">Salvar</button>

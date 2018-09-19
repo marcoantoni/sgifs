@@ -33,7 +33,7 @@
       <td class="ls-txt-right ls-regroup">
         @if (Auth::check())
           <a href="{{ URL::to('item/' . $item->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar">Editar</a>
-        #endif
+        @endif
       </td>
     </tr>
     @endforeach

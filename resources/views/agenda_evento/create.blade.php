@@ -33,11 +33,11 @@
     </label>
     <label class="ls-label col-md-4 col-xs-12">
       <b class="ls-label-text">Data inicio</b>
-      <input type="date" name="data_inicio" placeholder="" class="ls-field" value="{{ old('data_inicio') }}" required>
+      <input type="date" name="data_inicio" id="data_inicio" placeholder="" class="ls-field" value="{{ old('data_inicio') }}" required>
     </label>
     <label class="ls-label col-md-4 col-xs-12">
       <b class="ls-label-text">Data fim</b>
-      <input type="date" name="data_fim" placeholder="" class="ls-field" value="{{ old('data_fim') }}" required>
+      <input type="date" name="data_fim" id="data_fim" placeholder="" class="ls-field" value="{{ old('data_fim') }}" required>
     </label> 
     <label class="ls-label col-md-4 col-xs-12">
       <b class="ls-label-text">Hora de ínicio</b>
@@ -63,10 +63,6 @@
         @endforeach
       </datalist>
     </label> 
-    <label class="ls-label col-md-12 col-xs-12">
-      <b class="ls-label-text">Observação</b>
-      <input type="text" name="observacao" placeholder="Observação" class="ls-field" data-ls-module="charCounter" maxlength="1000" value="{{ old('observacao') }}">
-    </label>
     <label class="ls-label col-md-8 col-xs-12">
       <b class="ls-label-text">Link</b>
       <input type="url" name="link" placeholder="Link para inscrição do evento" class="ls-field" data-ls-module="charCounter" maxlength="100" value="{{ old('link') }}" >
@@ -75,10 +71,10 @@
       <b class="ls-label-text">Nome do link</b>
       <input type="text" name="nomelink" placeholder="Aparecerá ao lado do nome do evento" class="ls-field" data-ls-module="charCounter" maxlength="45" value="{{ old('nomelink') }}" >
     </label>
-    <!--<label class="ls-label col-md-12">
+    <label class="ls-label col-md-12">
       <b class="ls-label-text">Observação</b>
       <textarea rows="4" name="observacao" data-ls-module="charCounter" maxlength="1000">{{ old('observacao') }}</textarea>
-    </label>-->
+    </label>
 
     <div class="ls-actions-btn">
       <button class="ls-btn" type="submit">Salvar</button>
@@ -86,4 +82,12 @@
     </div>
   </form>
 </div>
+<script>
+	// preenche o campo data_fim com a data_inicio quando o campo data_inicio perde o foco
+	$('#data_inicio').blur(function(){
+		$('#data_fim').val(
+			$('#data_inicio').val()
+		);
+	});
+</script>
 @stop
