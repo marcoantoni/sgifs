@@ -51,7 +51,7 @@
         <td>{{ $evento->alvo }}</td>
         <td>{{ $evento->observacao }}</td>
         <td class="ls-group-btn">
-          @if ((Auth::check()))
+          @if ((Auth::check() &&  Auth::user()->id == $evento->id_user ))
             <a href="{{ URL::to('eventos/' . $evento->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar">Editar</a>
 						<!-- form para exclusão com ajax -->
             <form class="formApagarEvento" action="{{ route('eventos.destroy', $evento->id) }}" method="POST" onsubmit="return false">

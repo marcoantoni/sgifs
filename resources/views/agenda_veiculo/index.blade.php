@@ -66,6 +66,11 @@
           <a href="#" class="ls-btn ls-btn-sm ls-screen-xs" title="Detalhes" data-ls-module="modal" data-target="#modalExibirEvento" onclick="buscarEvento({{ $agendamento->id }});">Detalhes</a>
           @if (Auth::check())
             <a href="{{ URL::to('agendaveiculos/' . $agendamento->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar">Editar</a>
+            <form class="formApagarAgendamento" action="{{ route('agendaveiculos.destroy', $agendamento->id) }}" method="POST" onsubmit="return false">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <input type="submit" class="ls-btn-danger ls-btn-sm btnDelete" value="Apagar" id="btnDelete" data-id="{{ $agendamento->id }}" >
+            </form> 
           @endif
         </td>
       </tr>
@@ -130,6 +135,32 @@
   function limpartabela(){
     $("#agendamentos > tbody").html("");
 }
+$('.formApagarAgendamento').on('click', function(e) {
+    if (confirm('Deseja mesmo excluir?')) {
+      var inputData = $('.formApagarAgendamento').serialize();
+      var dataId = $('.btnDelete').attr('data-id');
+      var parent = $(this).parent();
+      var url = '{{ url("/agendaveiculos") }}' + '/' + dataId;
+      
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: inputData,
+        
+        success: function(data) {
+          if (data.status === 'successo') {
+            // removendo a linha excluida com uma animação
+            parent.closest("tr").fadeOut(1000, function(){ 
+              $(this).remove();
+            });
+          } else if (data.status === 'erro'){
+            alert(data.msg);
+          }
+        }
+      });
+    }
+    return false;
+  });
 </script>
 
 @stop

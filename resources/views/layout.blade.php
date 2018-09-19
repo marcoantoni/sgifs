@@ -11,7 +11,6 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="icon" sizes="192x192" href="/locawebstyle/assets/images/ico-painel1.png">
-  <link rel="apple-touch-icon" href="/locawebstyle/assets/images/ico-painel1.png">
   <meta name="apple-mobile-web-app-title" content="Painel 1">
   <!--<script src="../../../../assets/javascripts/libs/mediaqueries-ie.js" type="text/javascript"></script><script src="../../../../assets/javascripts/libs/html5shiv.js" type="text/javascript"></script>-->
   <script src="{{ URL::asset('javascript/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
@@ -63,7 +62,7 @@
 
       <!-- Nome do produto/marca com sidebar -->
       <h1 class="ls-brand-name">
-        <a href="home" class="ls-ico-earth">Instituto Federal Santa Catarina<small>campus São Carlos</small></a>
+        <a href="http://saocarlos.ifsc.edu.br/" class="ls-ico-earth">Instituto Federal Santa Catarina<small>campus São Carlos</small></a>
       </h1>
       <!-- Nome do produto/marca sem sidebar quando for o pre-painel  -->
     </div>
@@ -162,10 +161,7 @@
     <script src="{{ URL::asset('locawebstyles/javascripts/locastyle.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
       $('#error').hide();
-        $(window).on('load', function() {
-        locastyle.browserUnsupportedBar.init();
-      });
-
+      
       function ocultarNotificacao(id){
         var baseUrl = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '')+'/ocultar-notificacao/'+id;
           $.get(baseUrl, function( data ) {
