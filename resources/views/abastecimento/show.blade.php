@@ -56,10 +56,11 @@
       <td class="ls-group-btn">
         @if (Auth::check())
           <a href="{{ URL::to('abastecimento/' . $abastecimento->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar abastecimento">Editar</a>
-          {{ Form::open(array('url' => 'abastecimento/' . $abastecimento->id)) }}
-            {{ Form::hidden('_method', 'DELETE') }}
-            {{ Form::submit('Apagar', array('class' => 'ls-btn-danger ls-btn-sm')) }}
-          {{ Form::close() }}
+          <form class="formApagarAbastecimento" action="{{ route('abastecimento.destroy', $abastecimento->id) }}" method="POST" onsubmit="return false">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+              <input type="submit" class="ls-btn-danger ls-btn-sm btnApagarAbastecimento" value="Apagar" data-id="{{ $abastecimento->id }}" >
+            </form> 
         @endif
         @if ($abastecimento->arquivo == NULL)
           <a href="#" class="ls-btn ls-btn-sm ls-disabled " title="Não foi anexado nota fiscal deste abastecimento">Download</a>
@@ -79,5 +80,32 @@
     var redirectTo = baseUrl + '/abastecimento/' + id_veiculo;
     window.location.replace(redirectTo);
   }
+
+  $('.formApagarAbastecimento').on('click', function(e) {
+    if (confirm('Deseja mesmo excluir?')) {
+      var inputData = $('.formApagarAbastecimento').serialize();
+      var dataId = $('.btnApagarAbastecimento').attr('data-id');
+      var parent = $(this).parent();
+      var url = '{{ url("/abastecimento") }}' + '/' + dataId;
+      
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: inputData,
+        
+        success: function(data) {
+          if (data.status === 'successo') {
+            // removendo a linha excluida com uma animação
+            parent.closest("tr").fadeOut(1000, function(){ 
+              $(this).remove();
+            });
+          } else if (data.status === 'erro'){
+            alert(data.msg);
+          }
+        }
+      });
+    }
+    return false;
+  });
 </script>
 @stop

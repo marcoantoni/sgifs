@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="ls-title-intro ls-ico-pencil">Editando agendamento de veículo</h1>
-<div class="col-md-4">
+<div class="col-md-6">
   @if (session('error'))
     <div class="ls-alert-danger ls-dismissable" id="alert-error">
       <span data-ls-module="dismiss" class="ls-dismiss">&times;</span>

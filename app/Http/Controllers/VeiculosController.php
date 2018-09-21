@@ -28,7 +28,6 @@ class EmpresaController extends Controller {
         } else if (!$temPermissao) {
             return $this->msgSemPermissao;
         }
-
     }
 
     public function store(Request $request) {

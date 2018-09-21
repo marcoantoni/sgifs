@@ -57,7 +57,7 @@
             <form class="formApagarEvento" action="{{ route('eventos.destroy', $evento->id) }}" method="POST" onsubmit="return false">
 				        <input type="hidden" name="_method" value="DELETE">
 				        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-				        <input type="submit" class="ls-btn-danger ls-btn-sm btnDeleteProduct" value="Apagar" id="btnDelete" data-id="{{ $evento->id }}" >
+				        <input type="submit" class="ls-btn-danger ls-btn-sm btnApagarEvento" value="Apagar" data-id="{{ $evento->id }}" >
 				    </form>	
           @endif 
         </td>
@@ -70,7 +70,7 @@
 	$('.formApagarEvento').on('click', function(e) {
 		if (confirm('Deseja mesmo excluir?')) {
 			var inputData = $('.formApagarEvento').serialize();
-			var dataId = $('.btnDeleteProduct').attr('data-id');
+			var dataId = $('.btnApagarEvento').attr('data-id');
 			var parent = $(this).parent();
 			var url = '{{ url("/eventos") }}' + '/' + dataId;
 			

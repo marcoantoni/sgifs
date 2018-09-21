@@ -60,10 +60,12 @@
       <td class="ls-group-btn">
         @if(Auth::check())
           <a href="{{ URL::to('detalheempenho/' . $item->id . '/edit') }}" class="ls-btn ls-btn-sm" title="Editar">Editar</a>
-          {{ Form::open(array('url' => 'detalheempenho/' . $item->id)) }}
-          {{ Form::hidden('_method', 'DELETE') }}
-          {{ Form::submit('Apagar', array('class' => 'ls-btn ls-btn-sm ls-btn-danger')) }}
-          {{ Form::close() }} 
+           <!-- form para exclusão com ajax -->
+          <form class="formApagarDetalheEmpenho" action="{{ route('detalheempenho.destroy', $item->id) }}" method="POST" onsubmit="return false">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+            <input type="submit" class="ls-btn-danger ls-btn-sm btnDeleteDetalheEmpenho" value="Apagar"  data-id="{{ $item->id }}" >
+          </form> 
         @endif
       </td>
     </tr>
@@ -71,5 +73,32 @@
   </tbody>
 </table>
 </div>
-
+<script>
+  $('.formApagarDetalheEmpenho').on('click', function(e) {
+    if (confirm('Deseja mesmo excluir?')) {
+      var inputData = $('.formApagarDetalheEmpenho').serialize();
+      var dataId = $('.btnDeleteDetalheEmpenho').attr('data-id');
+      var parent = $(this).parent();
+      var url = '{{ url("/detalheempenho") }}' + '/' + dataId;
+      
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: inputData,
+        
+        success: function(data) {
+          if (data.status === 'successo') {
+            // removendo a linha excluida com uma animação
+            parent.closest("tr").fadeOut(1000, function(){ 
+              $(this).remove();
+            });
+          } else if (data.status === 'erro'){
+            alert(data.msg);
+          }
+        }
+      });
+    }
+    return false;
+  });
+</script>
 @stop

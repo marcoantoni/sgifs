@@ -45,8 +45,6 @@ class ComentarioController extends Controller {
     }
 
     public function create() {
-    
-       // $assuntos = Assunto::getAll(0);
         $setores = Setor::get();
         return view('comentario.create')->with(['setores' => $setores, 'pgtitulo' => 'Deixe sua dúvida ou sugestão']);
     }
@@ -103,7 +101,12 @@ class ComentarioController extends Controller {
 
         $assuntos = Assunto::get();
         $setores = Setor::get();
-        return view('comentario.edit')->with(['comentario' => $comentario, 'assuntos' => $assuntos, 'setores' => $setores, 'pgtitulo' => 'Respondendo dúvida ou suguestão']);
+        return view('comentario.edit')->with([
+            'comentario' => $comentario, 
+            'assuntos' => $assuntos, 
+            'setores' => $setores, 
+            'pgtitulo' => 'Respondendo dúvida ou suguestão'
+        ]);
     }
 
     public function update(Request $request, $id) {

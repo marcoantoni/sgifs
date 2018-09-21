@@ -2,7 +2,7 @@
 
 @section('content')
 <h1 class="ls-title-intro ls-ico-week">Adicionando novo agendamento de veículo</h1>
-<div class="col-md-4">
+<div class="col-md-6">
 @if (session('error'))
   <div class="ls-alert-danger ls-dismissable" id="alert-error">
     <span data-ls-module="dismiss" class="ls-dismiss">&times;</span>
@@ -13,7 +13,6 @@
     'route' => 'agendaveiculos.store',
     'class' => 'ls-form ls-form-horizontal row'
 ]) !!}
-  <form action="" class="ls-form ls-form-horizontal row">
     <label class="ls-label col-md-4 col-xs-4">
       <b class="ls-label-text">Data</b>
       <input type="date" name="dia" placeholder="Dia que será usado" class="ls-field" value="{{ old('dia') }}" required>

@@ -19,7 +19,7 @@ class DetalheEmpenhoController extends Controller {
 
     public function index() {
        //$itens = DetalheEmpenho::get();
-       return redirect('empenho');//view('detalhe_empenho.index')->with(['itens' => $itens, 'pgtitulo' => 'Lista de todos os itens do empenho nº xx']);
+       return redirect('empenho');
     }
 
     public function create() {
@@ -111,7 +111,8 @@ class DetalheEmpenhoController extends Controller {
     public function destroy($id) {
         $item = DetalheEmpenho::find($id);
         $item->delete($id);
-        return redirect('detalheempenho');
+        $resp = ['status' => 'successo'];
+        // retorna um json pois a exclusão é feita via ajax
+        return response()->json($resp);
     }
-
 }

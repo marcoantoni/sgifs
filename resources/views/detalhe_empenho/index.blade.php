@@ -37,36 +37,5 @@
     @endforeach
   </tbody>
 </table>
-<!-- paginação 
-<div class="ls-pagination-filter">
-  <ul class="ls-pagination">
-    <li><a href="#">« Anterior</a></li>
-    <li class="ls-active"><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#" class="hidden-xs">4</a></li>
-    <li><a href="#" class="hidden-xs">5</a></li>
-    <li><a href="#">Próximo »</a></li>
-  </ul>
-   paginação -->
-
-<!-- filtro quantidade
-  <div class="ls-filter-view">
-    <label for="">
-      Exibir
-      <div class="ls-custom-select ls-field-sm">
-        <select name="" id="">
-          <option value="10">10</option>
-          <option value="30">30</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-      </div>
-      ítens por página
-    </label>
-  </div>
 </div>
- filtro quantidade -->
-
-    </div>
 @stop

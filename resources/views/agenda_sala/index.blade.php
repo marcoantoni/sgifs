@@ -55,7 +55,7 @@
               <form class="formApagarAgendamento" action="{{ route('agenda.destroy', $agendamento->id) }}" method="POST" onsubmit="return false">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                <input type="submit" class="ls-btn-danger ls-btn-sm btnApagarAgendamento" value="Apagar" id="btnDelete" data-id="{{ $agendamento->id }}" >
+                <input type="submit" class="ls-btn-danger ls-btn-sm btnApagarAgendamento" value="Apagar" data-id="{{ $agendamento->id }}" >
             </form> 
             @endif
           @endif
