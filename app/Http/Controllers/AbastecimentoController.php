@@ -55,11 +55,11 @@ class AbastecimentoController extends Controller {
    
     try {
       $abastecimento = new Abastecimento();
-      $abastecimento->valor = $request->input('valor');
+      $abastecimento->valor = str_replace(',', '.', $request->input('valor'));
       $abastecimento->data = $request->input('data');
       $abastecimento->km = $request->input('km');
       $abastecimento->id_veiculo = $request->input('id_veiculo');
-      $abastecimento->litros = $request->input('litros');
+      $abastecimento->litros = str_replace(',', '.', $request->input('litros'));
       $abastecimento->id_user = $request->input('id_user');
      
       $abastecimento->media = $this->calcularMedia($request->input('id_veiculo'), $request->input('km'), $request->input('litros'));
@@ -102,7 +102,12 @@ class AbastecimentoController extends Controller {
     $pgtitulo = "Editando abastecimento";
 
     $abastecimento = Abastecimento::find($id);
-    return view('abastecimento.edit')->with(['abastecimento' => $abastecimento, 'usuarios' => $usuarios, 'veiculos' => $veiculos, 'pgtitulo' => $pgtitulo]); 
+    return view('abastecimento.edit')->with([
+      'abastecimento' => $abastecimento, 
+      'usuarios' => $usuarios, 
+      'veiculos' => $veiculos, 
+      'pgtitulo' => $pgtitulo
+    ]); 
   }
 
   public function update(Request $request, $id) {
@@ -117,11 +122,11 @@ class AbastecimentoController extends Controller {
     
     try {
       $abastecimento = Abastecimento::find($id);
-      $abastecimento->valor = $request->input('valor');
+      $abastecimento->valor = str_replace(',', '.', $request->input('valor')); 
       $abastecimento->data = $request->input('data');
       $abastecimento->km = $request->input('km');
       $abastecimento->id_veiculo = $request->input('id_veiculo');
-      $abastecimento->litros = $request->input('litros');
+      $abastecimento->litros = str_replace(',', '.', $request->input('litros')); 
 
       // ao editar a media deve ser inserida manualmente
       $abastecimento->media = $request->input('media');

@@ -40,8 +40,8 @@ class EmpenhoController extends Controller {
             return redirect('orcamento')->with(['error' => $this->msgSemPermissao]);
         }
 
-        $emp = Empresa::getTodas();
-        $nat = Natureza::getTodas();
+        $emp = Empresa::orderBy("nome_fantasia", "ASC")->get();
+        $nat = Natureza::orderBy("nome", "ASC")->get();
         $orc = Orcamento::orderBy('ano', 'DESC')->get();
         $pgtitulo = "Adicionando novo empenho";
         return view('empenho.create')->with(['empresas' => $emp, 'natureza' => $nat, 'orcamento' => $orc, 'pgtitulo' => $pgtitulo]);
@@ -61,7 +61,7 @@ class EmpenhoController extends Controller {
         $emp = new Empenho();
 
         $emp->numero = strtoupper($request->input('numero'));
-        $emp->valor = $request->input('valor');
+        $emp->valor = str_replace(',', '.', $request->input('valor'));
         $emp->id_natureza = $request->input('id_natureza');
         $emp->id_empresa = $request->input('id_empresa');
         $emp->id_orcamento = $request->input('id_orcamento');
@@ -97,13 +97,13 @@ class EmpenhoController extends Controller {
         }
 
         $empenho = Empenho::find($id);
-        $empr = Empresa::getTodas();
-        $nat = Natureza::getTodas();
+        $emp = Empresa::orderBy("nome_fantasia", "ASC")->get();
+        $nat = Natureza::orderBy("nome", "ASC")->get();
         $orc = Orcamento::orderBy('ano', 'DESC')->get();
         $pgtitulo = "Editando empenho";
         return view('empenho.edit')->with([
             'empenho' => $empenho, 
-            'empresas' => $empr, 
+            'empresas' => $emp, 
             'natureza' => $nat, 
             'orcamento' => $orc, 
             'pgtitulo' => $pgtitulo
@@ -123,7 +123,7 @@ class EmpenhoController extends Controller {
         $emp = Empenho::find($id);
 
         $emp->numero = strtoupper($request->input('numero'));
-        $emp->valor = $request->input('valor');
+        $emp->valor = str_replace(',', '.', $request->input('valor'));
         $emp->id_natureza = $request->input('id_natureza');
         $emp->id_empresa = $request->input('id_empresa');
         $emp->id_orcamento = $request->input('id_orcamento');

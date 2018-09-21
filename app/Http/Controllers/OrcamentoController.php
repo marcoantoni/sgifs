@@ -110,7 +110,8 @@ class OrcamentoController extends Controller {
         }
 
         try {
-            $orcamento = Orcamento::where('ano', $id)->update(['valor_previsto' => $request->input('valor_previsto')]);
+            $valor_previsto = str_replace(',', '.', $request->input('valor_previsto')); 
+            $orcamento = Orcamento::where('ano', $id)->update(['valor_previsto' => $valor_previsto]);
             return redirect('orcamento')->with(['success' => 'Alteração feira com sucesso!']);
         } catch (\Illuminate\Database\QueryException $ex) {
             return back()->withInput()->with('error', 'Verifique se o setor está preenchido corretamente. <br/>Erro: ' . $ex->getMessage());

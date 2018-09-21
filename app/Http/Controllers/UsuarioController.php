@@ -29,7 +29,7 @@ class UsuarioController extends Controller {
             return redirect('orcamento')->with(['error' => $this->msgSemPermissao]);
         }
 
-        $usuarios = User::get();
+        $usuarios = User::orderBy("name", "ASC")->get();
         $pgtitulo = "Lista de usuários";
         return view('usuario.index')->with(['usuarios' => $usuarios, 'pgtitulo' => $pgtitulo]);
     }

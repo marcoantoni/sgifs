@@ -52,7 +52,7 @@ class RecursosLiberadosController extends Controller {
         }
 
         $rlib = new RecursosLiberados();
-        $rlib->valor = $request->input('valor');
+        $rlib->valor = str_replace(',', '.', $request->input('valor')); 
         $rlib->data = $request->input('data');
         $rlib->id_orcamento = $request->input('id_orcamento');
         
@@ -103,7 +103,7 @@ class RecursosLiberadosController extends Controller {
         }
         
         $rlib = RecursosLiberados::find($id);
-        $rlib->valor = $request->input('valor');
+        $rlib->valor = str_replace(',', '.', $request->input('valor')); 
         $rlib->data = $request->input('data');
         $rlib->id_orcamento = $request->input('id_orcamento');
         
