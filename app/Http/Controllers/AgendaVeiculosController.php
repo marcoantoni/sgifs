@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\AgendaVeiculo;
 use App\Veiculo;
 use App\PermissaoUsuario;
+use App\AgendaVeiculoAuditoria;
 
 class AgendaVeiculosController extends Controller {
     
@@ -134,8 +135,21 @@ class AgendaVeiculosController extends Controller {
   }
 
   public function destroy($id) {
-
     $agendamento = AgendaVeiculo::find($id);
+    
+    // grava os dados deletados em tabela para auditoria
+    $auditoria = new AgendaVeiculoAuditoria();
+    $auditoria->id_agendamento = $agendamento->id;
+    $auditoria->dia = $agendamento->dia;
+    $auditoria->inicio = $agendamento->inicio;
+    $auditoria->fim = $agendamento->fim;
+    $auditoria->id_veiculo = $agendamento->id_veiculo;
+    $auditoria->solicitante = $agendamento->solicitante;
+    $auditoria->motorista = $agendamento->motorista;
+    $auditoria->para_onde = $agendamento->para_onde;
+    $auditoria->observacao = $agendamento->observacao;
+    $auditoria->save();
+    
     $agendamento->delete();
    
     return redirect('agendaveiculos')->with('sucess', 'Agendamento excluído com sucesso!');
