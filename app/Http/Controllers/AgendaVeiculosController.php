@@ -137,10 +137,8 @@ class AgendaVeiculosController extends Controller {
 
     $agendamento = AgendaVeiculo::find($id);
     $agendamento->delete();
-    $resp = ['status' => 'successo'];
    
-    // retorna um json pois a exclusão é feita via ajax
-    return response()->json($resp);
+    return redirect('agendaveiculos')->with('sucess', 'Agendamento excluído com sucesso!');
   }
 
   public function getReservas($d1, $d2) {
