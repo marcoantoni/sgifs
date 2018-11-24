@@ -16,7 +16,7 @@ class AgendaVeiculo extends Model {
           $sql = "SELECT agenda_veiculos.id, DATE_FORMAT(dia, '%d/%m/%Y') AS dia, TIME_FORMAT(inicio, '%H:%i') AS inicio, TIME_FORMAT(fim, '%H:%i') AS fim, modelo, solicitante, motorista, para_onde, observacao FROM agenda_veiculos, veiculos WHERE dia BETWEEN '$data_inicial' AND '$data_final' AND id_veiculo = veiculos.id";
       }
 
-      $sql = $sql . " ORDER BY dia ASC";
+      $sql = $sql . " ORDER BY dia ASC, inicio ASC";
 		
       return DB::select($sql);
 	}
