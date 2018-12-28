@@ -17,7 +17,7 @@ class NaturezaController extends Controller {
     protected $msgSemPermissao = "Você não tem permissão para fazer isso";
 
     public function index() {
-        $naturezas = Natureza::getTodas();
+        $naturezas = Natureza::orderBy('nome', 'ASC')->get();
         return view('natureza.index')->with(['naturezas' => $naturezas, 'pgtitulo' => 'Lista de naturezas de gasto']);
     }
 
