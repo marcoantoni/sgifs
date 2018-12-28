@@ -16,7 +16,7 @@ class EmpresaController extends Controller {
     protected $nivelPermissaoRequerida = 1;
 
     public function index() {
-       $emp = Empresa::getTodas();
+       $emp = Empresa::orderBy('nome_fantasia')->get();
        return view('empresa.index')->with(['empresas' => $emp, 'pgtitulo' => 'Lista de todas empresas']);
     }
 
