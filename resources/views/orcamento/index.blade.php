@@ -28,6 +28,8 @@
         @if (Auth::check())
           <div class="ls-box-footer">
             <a href="/orcamento/{{ $orcamento[0]->ano }}/edit/" aria-label="Valor previsto para este ano" class="ls-btn ls-btn-sm" title="Alterar orçamento deste ano">Editar</a>
+    
+            <a href="/orcamento/create/" aria-label="Iniciar um novo orcamento anual" class="ls-btn ls-btn-sm ls-btn-primary" title="Necessário apenas uma vez por ano">Iniciar novo ano</a>
           </div>
         @endif
       </div>

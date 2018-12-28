@@ -45,11 +45,39 @@ class OrcamentoController extends Controller {
 
 
     public function create() {
-        //
+        $temPermissao = PermissaoUsuario::getPermissoes(Auth::User()->id, $this->nivelPermissaoRequerida);
+
+        if (!Auth::check()) {
+            return redirect('login');
+        } else if (!$temPermissao) {
+            return redirect('orcamento')->with(['error' => $this->msgSemPermissao]);
+        }
+
+        return view('orcamento.create')->with(['pgtitulo' => 'Iniciando novo orçamento anual']);
     }
 
     public function store(Request $request) {
-        //
+       
+        $temPermissao = PermissaoUsuario::getPermissoes(Auth::User()->id, $this->nivelPermissaoRequerida);
+
+        if (!Auth::check()) {
+            return redirect('login');
+        } else if (!$temPermissao) {
+            return redirect('orcamento')->with(['error' => $this->msgSemPermissao]);
+        }
+
+        $orcamento = New Orcamento;
+
+        $orcamento->ano = $request->input('ano');
+        $orcamento->valor_previsto = str_replace(',', '.', $request->input('valor_previsto'));
+
+        try {
+            $orcamento->save();
+            return redirect('orcamento')->with('sucess', 'Orçamento atual criado com sucesso! <br/> Lembre-se que ele só irá aparecer depois da virada do ano');
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return back()->withInput()->with('error', 'Verifique se todos os campos estão preenchidos corretamente! <br/>Erro: ' . $ex->getMessage());
+        } 
+        
     }
 
     public function show($id) {
